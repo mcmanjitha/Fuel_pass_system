@@ -1,11 +1,10 @@
 import "./App.css";
+import RegisterForm from "./components/register-form";
 
 function App() {
   return (
     <div>
-      <header>
-        <p>Welcome to fuel pass</p>
-      </header>
+      <RegisterForm />
     </div>
   );
 }
