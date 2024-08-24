@@ -1,10 +1,10 @@
 import "./App.css";
-import RegisterForm from "./components/register-form";
+import RegisterScreen from "./screens/register-screen";
 
 function App() {
   return (
     <div>
-      <RegisterForm />
+      <RegisterScreen />
     </div>
   );
 }
