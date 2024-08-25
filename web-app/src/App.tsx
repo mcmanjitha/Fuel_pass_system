@@ -1,11 +1,10 @@
 import "./App.css";
+import RegisterScreen from "./screens/register-screen";
 
 function App() {
   return (
     <div>
-      <header>
-        <p>Welcome to fuel pass</p>
-      </header>
+      <RegisterScreen />
     </div>
   );
 }
