@@ -3,16 +3,19 @@ package architecture.project.fuelsystem.controller;
 import architecture.project.fuelsystem.model.VehicleRegistration;
 import architecture.project.fuelsystem.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class VehicleController
 {
     @Autowired
     private VehicleService vehicleService;
+
+    @GetMapping("/validate")
+    public String validate(@RequestParam String chassisno)
+    {
+        return vehicleService.validate(chassisno);
+    }
 
     @PostMapping("/register")
     public VehicleRegistration register(@RequestBody VehicleRegistration vehicle)
