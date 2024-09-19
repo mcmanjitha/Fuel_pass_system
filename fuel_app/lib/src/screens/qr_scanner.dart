@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QRScannerScreen extends StatefulWidget {
-  const QRScannerScreen({Key? key}) : super(key: key);
+  const QRScannerScreen({super.key});
 
   @override
   State<StatefulWidget> createState() => _QRScannerScreenState();
@@ -100,7 +100,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
             child: Container(
               width: MediaQuery.of(context).size.width * 0.5,
               height: MediaQuery.of(context).size.width * 0.5,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 border: Border(
                   top: BorderSide(color: Colors.white, width: 4.0),
                   left: BorderSide(color: Colors.white, width: 4.0),
@@ -111,7 +111,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
             ),
           ),
           // Text at the bottom inside the focused area
-          Align(
+          const Align(
             alignment: Alignment(0, 0.8),
             child: Text(
               'Point the camera at the QR code',
@@ -145,6 +145,8 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
       setState(() {
         result = scanData;
       });
+      // Print the result to the VS Code console
+      print('Scanned QR Code: ${scanData.code}');
     });
   }
 }
