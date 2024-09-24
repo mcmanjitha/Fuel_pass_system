@@ -15,6 +15,8 @@ interface FormData {
   nic: string;
   email: string;
   mobile: string;
+  password: string;
+  reTypePassword: string;
   licensePlate: string;
   type: string;
   registeredYear: number;
@@ -22,6 +24,13 @@ interface FormData {
 }
 
 const RegisterForm: React.FC = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm<FormData>();
+  const password = watch("password");
   const [modalContent, setModalContent] = useState<TModalContent>({
     show: false,
     header: "",
@@ -30,12 +39,6 @@ const RegisterForm: React.FC = () => {
     closeHandler: () => setModalContent((prev) => ({ ...prev, show: false })),
   });
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-  } = useForm<FormData>();
   const onSubmit = (data: FormData) => {
     console.log(data);
 
@@ -125,6 +128,46 @@ const RegisterForm: React.FC = () => {
                 isInvalid={!!errors.mobile}
               />
               <Form.Control.Feedback type="invalid">Mobile number is required</Form.Control.Feedback>
+            </Col>
+          </Form.Group>
+
+          <Form.Group className="my-2" as={Row} controlId="password">
+            <Form.Label column sm="2">
+              Password
+            </Form.Label>
+            <Col sm="10">
+              <Form.Control
+                type="password"
+                placeholder="Enter password"
+                {...register("password", {
+                  required: "Password is required",
+                  pattern: {
+                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                    message:
+                      "Password must contain at least 1 uppercase, 1 lowercase, 1 number, 1 special character, and be 8 characters or more",
+                  },
+                })}
+                isInvalid={!!errors.password}
+              />
+              <Form.Control.Feedback type="invalid">{errors.password?.message}</Form.Control.Feedback>
+            </Col>
+          </Form.Group>
+
+          <Form.Group as={Row} className="my-2" controlId="reTypePassword">
+            <Form.Label column sm="2">
+              Re-enter Password
+            </Form.Label>
+            <Col sm="10">
+              <Form.Control
+                type="password"
+                placeholder="Re-enter password"
+                {...register("reTypePassword", {
+                  required: "Please re-enter your password",
+                  validate: (value) => value === password || "Passwords do not match",
+                })}
+                isInvalid={!!errors.reTypePassword}
+              />
+              <Form.Control.Feedback type="invalid">{errors.reTypePassword?.message}</Form.Control.Feedback>
             </Col>
           </Form.Group>
         </section>
