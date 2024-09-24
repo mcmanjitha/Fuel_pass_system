@@ -63,7 +63,7 @@ const RegisterForm: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Form className="p-4" onSubmit={handleSubmit(onSubmit)}>
+      <Form className="p-1" onSubmit={handleSubmit(onSubmit)}>
         <h2>Register</h2>
 
         <section>
@@ -79,9 +79,7 @@ const RegisterForm: React.FC = () => {
                 {...register("fullName", { required: true })}
                 isInvalid={!!errors.fullName}
               />
-              <Form.Control.Feedback type="invalid">
-                Full name is required
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">Full name is required</Form.Control.Feedback>
             </Col>
           </Form.Group>
 
@@ -96,9 +94,7 @@ const RegisterForm: React.FC = () => {
                 {...register("nic", { required: true })}
                 isInvalid={!!errors.nic}
               />
-              <Form.Control.Feedback type="invalid">
-                NIC is required
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">NIC is required</Form.Control.Feedback>
             </Col>
           </Form.Group>
 
@@ -113,9 +109,7 @@ const RegisterForm: React.FC = () => {
                 {...register("email", { required: true })}
                 isInvalid={!!errors.email}
               />
-              <Form.Control.Feedback type="invalid">
-                Email is required
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">Email is required</Form.Control.Feedback>
             </Col>
           </Form.Group>
 
@@ -130,9 +124,7 @@ const RegisterForm: React.FC = () => {
                 {...register("mobile", { required: true })}
                 isInvalid={!!errors.mobile}
               />
-              <Form.Control.Feedback type="invalid">
-                Mobile number is required
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">Mobile number is required</Form.Control.Feedback>
             </Col>
           </Form.Group>
         </section>
@@ -150,9 +142,7 @@ const RegisterForm: React.FC = () => {
                 {...register("licensePlate", { required: true })}
                 isInvalid={!!errors.licensePlate}
               />
-              <Form.Control.Feedback type="invalid">
-                License plate number is required
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">License plate number is required</Form.Control.Feedback>
             </Col>
           </Form.Group>
 
@@ -161,19 +151,13 @@ const RegisterForm: React.FC = () => {
               Type
             </Form.Label>
             <Col sm="10">
-              <Form.Control
-                as="select"
-                {...register("type", { required: true })}
-                isInvalid={!!errors.type}
-              >
+              <Form.Control as="select" {...register("type", { required: true })} isInvalid={!!errors.type}>
                 <option value="">Select type</option>
                 <option value="car">Car</option>
                 <option value="van">Van</option>
                 <option value="bus">Bus</option>
               </Form.Control>
-              <Form.Control.Feedback type="invalid">
-                Type is required
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">Type is required</Form.Control.Feedback>
             </Col>
           </Form.Group>
 
@@ -188,9 +172,7 @@ const RegisterForm: React.FC = () => {
                 {...register("registeredYear", { required: true })}
                 isInvalid={!!errors.registeredYear}
               />
-              <Form.Control.Feedback type="invalid">
-                Registered year is required
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">Registered year is required</Form.Control.Feedback>
             </Col>
           </Form.Group>
 
@@ -205,9 +187,7 @@ const RegisterForm: React.FC = () => {
                 {...register("chassisNo", { required: true })}
                 isInvalid={!!errors.chassisNo}
               />
-              <Form.Control.Feedback type="invalid">
-                Chassis number is required
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">Chassis number is required</Form.Control.Feedback>
             </Col>
             <Col xs="4" sm="2">
               <Button variant="secondary" onClick={validateChassisNo}>

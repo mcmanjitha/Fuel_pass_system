@@ -1,16 +1,16 @@
 import { Col, Container, Row } from "react-bootstrap";
-import RegisterForm from "../components/register-form";
+import LoginForm from "../components/login-form";
 
-const RegisterScreen = () => {
+const LoginScreen = () => {
   return (
     <Container className="py-4">
       <Row>
         <Col>
-          <RegisterForm />
+          <LoginForm />
         </Col>
       </Row>
     </Container>
   );
 };
 
-export default RegisterScreen;
+export default LoginScreen;
