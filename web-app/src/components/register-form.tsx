@@ -186,6 +186,7 @@ const RegisterForm: React.FC = () => {
                 isInvalid={!!errors.licensePlate}
               />
               <Form.Control.Feedback type="invalid">License plate number is required</Form.Control.Feedback>
+              <Form.Text className="text-muted">Example: ABC-1234 or AB-1234</Form.Text>
             </Col>
           </Form.Group>
 
