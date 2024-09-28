@@ -15,6 +15,8 @@ interface FormData {
   nic: string;
   email: string;
   mobile: string;
+  password: string;
+  reTypePassword: string;
   licensePlate: string;
   type: string;
   registeredYear: number;
@@ -22,6 +24,13 @@ interface FormData {
 }
 
 const RegisterForm: React.FC = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm<FormData>();
+  const password = watch("password");
   const [modalContent, setModalContent] = useState<TModalContent>({
     show: false,
     header: "",
@@ -30,12 +39,6 @@ const RegisterForm: React.FC = () => {
     closeHandler: () => setModalContent((prev) => ({ ...prev, show: false })),
   });
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-  } = useForm<FormData>();
   const onSubmit = (data: FormData) => {
     console.log(data);
 
@@ -63,7 +66,7 @@ const RegisterForm: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Form className="p-4" onSubmit={handleSubmit(onSubmit)}>
+      <Form className="p-1" onSubmit={handleSubmit(onSubmit)}>
         <h2>Register</h2>
 
         <section>
@@ -79,9 +82,7 @@ const RegisterForm: React.FC = () => {
                 {...register("fullName", { required: true })}
                 isInvalid={!!errors.fullName}
               />
-              <Form.Control.Feedback type="invalid">
-                Full name is required
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">Full name is required</Form.Control.Feedback>
             </Col>
           </Form.Group>
 
@@ -96,9 +97,7 @@ const RegisterForm: React.FC = () => {
                 {...register("nic", { required: true })}
                 isInvalid={!!errors.nic}
               />
-              <Form.Control.Feedback type="invalid">
-                NIC is required
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">NIC is required</Form.Control.Feedback>
             </Col>
           </Form.Group>
 
@@ -113,9 +112,7 @@ const RegisterForm: React.FC = () => {
                 {...register("email", { required: true })}
                 isInvalid={!!errors.email}
               />
-              <Form.Control.Feedback type="invalid">
-                Email is required
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">Email is required</Form.Control.Feedback>
             </Col>
           </Form.Group>
 
@@ -130,9 +127,47 @@ const RegisterForm: React.FC = () => {
                 {...register("mobile", { required: true })}
                 isInvalid={!!errors.mobile}
               />
-              <Form.Control.Feedback type="invalid">
-                Mobile number is required
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">Mobile number is required</Form.Control.Feedback>
+            </Col>
+          </Form.Group>
+
+          <Form.Group className="my-2" as={Row} controlId="password">
+            <Form.Label column sm="2">
+              Password
+            </Form.Label>
+            <Col sm="10">
+              <Form.Control
+                type="password"
+                placeholder="Enter password"
+                {...register("password", {
+                  required: "Password is required",
+                  pattern: {
+                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                    message:
+                      "Password must contain at least 1 uppercase, 1 lowercase, 1 number, 1 special character, and be 8 characters or more",
+                  },
+                })}
+                isInvalid={!!errors.password}
+              />
+              <Form.Control.Feedback type="invalid">{errors.password?.message}</Form.Control.Feedback>
+            </Col>
+          </Form.Group>
+
+          <Form.Group as={Row} className="my-2" controlId="reTypePassword">
+            <Form.Label column sm="2">
+              Re-enter Password
+            </Form.Label>
+            <Col sm="10">
+              <Form.Control
+                type="password"
+                placeholder="Re-enter password"
+                {...register("reTypePassword", {
+                  required: "Please re-enter your password",
+                  validate: (value) => value === password || "Passwords do not match",
+                })}
+                isInvalid={!!errors.reTypePassword}
+              />
+              <Form.Control.Feedback type="invalid">{errors.reTypePassword?.message}</Form.Control.Feedback>
             </Col>
           </Form.Group>
         </section>
@@ -150,9 +185,8 @@ const RegisterForm: React.FC = () => {
                 {...register("licensePlate", { required: true })}
                 isInvalid={!!errors.licensePlate}
               />
-              <Form.Control.Feedback type="invalid">
-                License plate number is required
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">License plate number is required</Form.Control.Feedback>
+              <Form.Text className="text-muted">Example: ABC-1234 or AB-1234</Form.Text>
             </Col>
           </Form.Group>
 
@@ -161,19 +195,13 @@ const RegisterForm: React.FC = () => {
               Type
             </Form.Label>
             <Col sm="10">
-              <Form.Control
-                as="select"
-                {...register("type", { required: true })}
-                isInvalid={!!errors.type}
-              >
+              <Form.Control as="select" {...register("type", { required: true })} isInvalid={!!errors.type}>
                 <option value="">Select type</option>
                 <option value="car">Car</option>
                 <option value="van">Van</option>
                 <option value="bus">Bus</option>
               </Form.Control>
-              <Form.Control.Feedback type="invalid">
-                Type is required
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">Type is required</Form.Control.Feedback>
             </Col>
           </Form.Group>
 
@@ -188,9 +216,7 @@ const RegisterForm: React.FC = () => {
                 {...register("registeredYear", { required: true })}
                 isInvalid={!!errors.registeredYear}
               />
-              <Form.Control.Feedback type="invalid">
-                Registered year is required
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">Registered year is required</Form.Control.Feedback>
             </Col>
           </Form.Group>
 
@@ -205,9 +231,7 @@ const RegisterForm: React.FC = () => {
                 {...register("chassisNo", { required: true })}
                 isInvalid={!!errors.chassisNo}
               />
-              <Form.Control.Feedback type="invalid">
-                Chassis number is required
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">Chassis number is required</Form.Control.Feedback>
             </Col>
             <Col xs="4" sm="2">
               <Button variant="secondary" onClick={validateChassisNo}>
