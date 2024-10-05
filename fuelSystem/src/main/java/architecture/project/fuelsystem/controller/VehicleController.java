@@ -11,22 +11,23 @@ public class VehicleController
     @Autowired
     private VehicleService vehicleService;
 
-    @GetMapping("/validate")
+    @GetMapping("/vehvalidate")
     public String validate(@RequestParam String chassisno)
     {
         return vehicleService.validate(chassisno);
     }
 
-    @PostMapping("/register")
+    @PostMapping("/vehregister")
     public VehicleRegistration register(@RequestBody VehicleRegistration vehicle)
     {
         return vehicleService.register(vehicle);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/vehlogin")
     public String login(@RequestBody VehicleRegistration vehicle)
     {
         return vehicleService.verify(vehicle);
     }
+
 
 }
