@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository;
 public interface VehicleRepository extends JpaRepository<VehicleRegistration,String>
 {
 
-    VehicleRegistration findByChassisno(String chassiNo);
 }

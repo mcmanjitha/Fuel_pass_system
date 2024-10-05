@@ -28,10 +28,5 @@ public class VehicleController
     {
         return vehicleService.verify(vehicle);
     }
-    @GetMapping("/loginss")
-    public String logins(@RequestBody VehicleRegistration vehicle)
-    {
-        return vehicleService.verifyss(vehicle);
-    }
 
 }
