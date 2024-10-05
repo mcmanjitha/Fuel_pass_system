@@ -25,7 +25,10 @@ public class VehicleService
     private DepartmentRepository departmentRepository;
 
     @Autowired
-    private AuthenticationManager authManager;
+    AuthenticationManager authManager;
+
+    @Autowired
+    private JWTService jwtService;
 
     public String validate(String chassisno) {
         Optional<DepartmentDatabase> availableVehicle = departmentRepository.findById(chassisno);
@@ -55,16 +58,17 @@ public class VehicleService
 
     public String verify(VehicleRegistration vehicle)
     {
+//        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+//                vehicle.getChassisno(), vehicle.getPassword());
+//        Authentication authentication = authManager.authenticate(authenticationToken);
+
         Authentication authentication =
                 authManager.authenticate(new UsernamePasswordAuthenticationToken(vehicle.getChassisno(),vehicle.getPassword()));
 
         if(authentication.isAuthenticated())
-            return "Success";
+            return jwtService.generateToken(vehicle.getChassisno());
 
         return "fail";
     }
 
-    public String verifyss(VehicleRegistration vehicle) {
-        return "null";
-    }
 }
