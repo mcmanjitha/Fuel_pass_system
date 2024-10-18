@@ -1,21 +1,25 @@
 server:
-  port: 8080
+  port: 9001
 
 spring:
   application:
     name: api-gateway
 
-  cloud:
-    gateway:
-      routes:
-        - id: user-service
-          uri: lb://user-service
-          predicates:
-            - Path=/users/**
-        - id: vehicle-service
-          uri: lb://vehicle-service
-          predicates:
-            - Path=/vehicles/**
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: user-service
+#          uri: lb://user-service
+#          predicates:
+#            - Path=/users/**
+#        - id: vehicle-service
+#          uri: lb://vehicle-service
+#          predicates:
+#            - Path=/vehicles/**
+#        - id: fuel-station-service
+#          uri: lb://fuel-station-management-service
+#          predicates:
+#            - Path=/fuelstations/**
 
 eureka:
   client:
@@ -23,3 +27,9 @@ eureka:
       defaultZone: http://discovery:8761/eureka/
     fetchRegistry: true
     registerWithEureka: true
+
+#  zipkin:
+#    base-url: http://zipkin:9411
+#  sleuth:
+#    sampler:
+#      probability: 1.0
