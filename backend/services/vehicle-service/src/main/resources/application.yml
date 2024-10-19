@@ -1,0 +1,30 @@
+server:
+  port: 8082
+
+  application:
+    name: vehicle-service
+
+  datasource:
+    url: jdbc:postgresql://postgres-vehicle:5432/vehicledb
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+    fetchRegistry: true
+    registerWithEureka: true
+
+spring:
+  zipkin:
+    base-url: http://zipkin:9411
+  sleuth:
+    sampler:
+      probability: 1.0

@@ -1,10 +1,12 @@
 import "./App.css";
-import RegisterScreen from "./screens/register-screen";
+import Header from "./components/header";
+import TabbedLayout from "./screens/tabbed-layout";
 
 function App() {
   return (
     <div>
-      <RegisterScreen />
+      <Header />
+      <TabbedLayout />
     </div>
   );
 }

@@ -1,0 +1,20 @@
+server:
+  port: 8084
+spring:
+  datasource:
+    url: jdbc:postgresql://fuelstation-db:5432/fuelstationdb
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery:8761/eureka/
+  instance:
+    prefer-ip-address: true
+zipkin:
+  base-url: http://zipkin:9411
