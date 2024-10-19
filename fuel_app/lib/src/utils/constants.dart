@@ -13,3 +13,6 @@ const appBarLabelStyle = TextStyle(fontSize: 12.0, color: maroon);
 const maroon = Color.fromARGB(255, 101, 1, 33);
 
 const grey = Color.fromARGB(255, 150, 149, 149);
+const lightgrey = Color.fromARGB(255, 230, 230, 230);
+
+const white = Color.fromARGB(255, 255, 255, 255);

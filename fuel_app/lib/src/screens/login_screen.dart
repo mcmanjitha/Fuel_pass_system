@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fuel_app/src/screens/home.dart';
+import 'package:fuel_app/src/screens/qr_scanner.dart';
 import 'package:fuel_app/src/widgets/custom_app_bar.dart';
 import '../utils/constants.dart';
 
@@ -80,6 +82,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         // Perform the login logic here
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Logging in...')),
+                        );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Home()),
                         );
                       }
                     },
