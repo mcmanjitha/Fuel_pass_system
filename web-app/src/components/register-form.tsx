@@ -28,12 +28,11 @@ const RegisterForm: React.FC = () => {
     buttonText: "",
     closeHandler: () => setModalContent((prev) => ({ ...prev, show: false })),
   });
-  const token = localStorage.getItem("token");
 
   const onSubmit = (data: FormData) => {
     console.log(data);
 
-    registerVehicle(data, token)
+    registerVehicle(data)
       .then((response) => {
         setModalContent({
           show: true,
@@ -51,7 +50,7 @@ const RegisterForm: React.FC = () => {
   const validateChassisNo = () => {
     const chassisNo = watch("chassisNo");
 
-    validateVehicle(chassisNo, token)
+    validateVehicle(chassisNo)
       .then((response) => {
         setModalContent({
           show: true,
