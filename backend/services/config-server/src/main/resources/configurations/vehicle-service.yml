@@ -1,0 +1,25 @@
+server:
+  port: 10002
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:10101/vehicledb
+    username: vehicleuser
+    password: vehiclepass
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://discovery:10001/eureka/
+    fetchRegistry: true
+    registerWithEureka: true
+
+
+
