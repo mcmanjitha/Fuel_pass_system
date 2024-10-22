@@ -10,3 +10,8 @@ export interface FormData {
   registeredYear: number;
   chassisNo: string;
 }
+
+export interface LoginData {
+  licensePlateNo: string;
+  password: string;
+}
