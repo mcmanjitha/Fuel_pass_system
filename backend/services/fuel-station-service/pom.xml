@@ -12,7 +12,7 @@
 	<artifactId>fuel-station-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>fuel-station-service</name>
-	<description>motor-traffic-service</description>
+	<description>fuel-station-service</description>
 	<url/>
 	<licenses>
 		<license/>
