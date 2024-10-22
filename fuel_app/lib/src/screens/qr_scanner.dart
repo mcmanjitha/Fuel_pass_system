@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuel_app/src/screens/dashboard.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QRScannerScreen extends StatefulWidget {
@@ -147,6 +148,14 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
       });
       // Print the result to the VS Code console
       print('Scanned QR Code: ${scanData.code}');
+
+      if (scanData.code != null) {
+        controller.pauseCamera(); // Optional: pause the camera after scanning
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Dashboard()),
+        );
+      }
     });
   }
 }
