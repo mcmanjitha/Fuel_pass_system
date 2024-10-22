@@ -1,179 +1,212 @@
-version: '3.8'
 
 services:
-  api-gateway:
+  config-server:
     build:
-      context: ./api-gateway
+      context: ./services/config-server
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "10000:10000"
+    volumes:
+      - ./services/config-server/configurations:/app/configurations
     environment:
-      SPRING_PROFILES_ACTIVE: docker
-    depends_on:
-      - discovery
-    networks:
-      - fuel-pass-network
+      - SPRING_PROFILES_ACTIVE=native
 
   discovery:
-    image: springcloud/eureka
+    image: openjdk:21-jdk
+    container_name: discovery
     ports:
       - "8761:8761"
     networks:
-      - fuel-pass-network
-
-  user-service:
+      - fuel-network
+    command: >
+      sh -c "java -jar /app.jar"
     build:
-      context: ./user-service
+      context: ./discovery
       dockerfile: Dockerfile
-    ports:
-      - "8081:8081"
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
-    depends_on:
-      - user-db
-    networks:
-      - fuel-pass-network
-
-  user-db:
-    image: postgres:13
-    environment:
-      POSTGRES_DB: userdb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    networks:
-      - fuel-pass-network
+    restart: always
 
   vehicle-service:
+    image: openjdk:21-jdk
+    container_name: vehicle-service
+    ports:
+      - "8081:8081"
+    networks:
+      - fuel-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - discovery
+      - config-server
+      - vehicledb
     build:
       context: ./vehicle-service
       dockerfile: Dockerfile
+    restart: always
+
+  fuel-station-service:
+    image: openjdk:21-jdk
+    container_name: fuel-station-service
     ports:
       - "8082:8082"
+    networks:
+      - fuel-network
     environment:
-      SPRING_PROFILES_ACTIVE: docker
+      - SPRING_PROFILES_ACTIVE=docker
     depends_on:
-      - vehicle-db
-    networks:
-      - fuel-pass-network
-
-  vehicle-db:
-    image: postgres:13
-    environment:
-      POSTGRES_DB: vehicledb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    networks:
-      - fuel-pass-network
-
-  fuel-station-management-service:
+      - discovery
+      - config-server
+      - fuelstationdb
     build:
-      context: ./fuel-station-management-service
+      context: ./fuel-station-service
       dockerfile: Dockerfile
-    ports:
-      - "8083:8083"
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
-    depends_on:
-      - fuel-station-db
-    networks:
-      - fuel-pass-network
-
-  fuel-station-db:
-    image: postgres:13
-    environment:
-      POSTGRES_DB: fuelstationdb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    networks:
-      - fuel-pass-network
+    restart: always
 
   fuel-quota-service:
+    image: openjdk:21-jdk
+    container_name: fuel-quota-service
+    ports:
+      - "8083:8083"
+    networks:
+      - fuel-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - discovery
+      - config-server
     build:
       context: ./fuel-quota-service
       dockerfile: Dockerfile
-    ports:
-      - "8084:8084"
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
-    networks:
-      - fuel-pass-network
-
-  qr-code-generation-service:
-    build:
-      context: ./qr-code-generation-service
-      dockerfile: Dockerfile
-    ports:
-      - "8085:8085"
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
-    networks:
-      - fuel-pass-network
-
-  qr-code-scanning-service:
-    build:
-      context: ./qr-code-scanning-service
-      dockerfile: Dockerfile
-    ports:
-      - "8086:8086"
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
-    networks:
-      - fuel-pass-network
+    restart: always
 
   notification-service:
+    image: openjdk:21-jdk
+    container_name: notification-service
+    ports:
+      - "8084:8084"
+    networks:
+      - fuel-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - discovery
+      - config-server
     build:
       context: ./notification-service
       dockerfile: Dockerfile
-    ports:
-      - "8087:8087"
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
-    networks:
-      - fuel-pass-network
+    restart: always
 
   admin-service:
+    image: openjdk:21-jdk
+    container_name: admin-service
+    ports:
+      - "8085:8085"
+    networks:
+      - fuel-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - discovery
+      - config-server
     build:
       context: ./admin-service
       dockerfile: Dockerfile
+    restart: always
+
+  api-gateway:
+    image: openjdk:21-jdk
+    container_name: api-gateway
     ports:
-      - "8088:8088"
+      - "8080:8080"
+    networks:
+      - fuel-network
     environment:
-      SPRING_PROFILES_ACTIVE: docker
+      - SPRING_PROFILES_ACTIVE=docker
     depends_on:
-      - admin-db
-    networks:
-      - fuel-pass-network
-
-  admin-db:
-    image: postgres:13
-    environment:
-      POSTGRES_DB: adminservice
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    networks:
-      - fuel-pass-network
-
-  mtd-integration-service:
+      - discovery
+      - config-server
     build:
-      context: ./mtd-integration-service
+      context: ./api-gateway
       dockerfile: Dockerfile
+    restart: always
+
+  zipkin:
+    image: openzipkin/zipkin:latest
+    container_name: zipkin
     ports:
-      - "8089:8089"
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
+      - "9411:9411"
     networks:
-      - fuel-pass-network
+      - fuel-network
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    networks:
+      - fuel-network
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+    depends_on:
+      - zookeeper
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    networks:
+      - fuel-network
+
+  vehicledb:
+    image: postgres
+    container_name: vehicledb
+    ports:
+      - "10010:5432"
+    networks:
+      - fuel-network
+    environment:
+      POSTGRES_DB: vehicledb
+      POSTGRES_USER: vehicleuser
+      POSTGRES_PASSWORD: vehiclepass
+
+
+  fuelstationdb:
+    image: postgres
+    container_name: fuelstationdb
+    ports:
+      - "10011:5432"
+    networks:
+      - fuel-network
+    environment:
+      POSTGRES_DB: fuelstationdb
+      POSTGRES_USER: stationuser
+      POSTGRES_PASSWORD: stationpass
+
+  admindb:
+    image: postgres
+    container_name: admindb
+    ports:
+      - "10012:5434"
+    networks:
+      - fuel-network
+    environment:
+      POSTGRES_DB: admindb
+      POSTGRES_USER: adminuser
+      POSTGRES_PASSWORD: adminpass
 
   pg-admin:
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
     ports:
       - "5050:80"
     networks:
-      - fuel-pass-network
+      - fuel-network
+
 
 networks:
-  fuel-pass-network:
+  fuel-network:
     driver: bridge
