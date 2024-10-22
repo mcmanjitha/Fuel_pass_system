@@ -1,0 +1,25 @@
+server:
+  port: 10004
+
+spring:
+  application:
+    name: admin-service
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:10012/admindb
+    username: adminuser
+    password: adminpass
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://discovery:10001/
+    fetchRegistry: true
+    registerWithEureka: true
