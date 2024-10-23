@@ -1,4 +1,4 @@
-package foe.fuelpass.vehicle.model;
+package foe.fuelpass.vehicle_service.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

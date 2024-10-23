@@ -1,6 +1,6 @@
-package foe.fuelpass.vehicle.repository;
+package foe.fuelpass.vehicle_service.repository;
 
-import foe.fuelpass.vehicle.model.DepartmentDatabase;
+import foe.fuelpass.vehicle_service.model.DepartmentDatabase;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

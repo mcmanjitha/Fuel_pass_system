@@ -1,4 +1,4 @@
-package foe.fuelpass.vehicle.service;
+package foe.fuelpass.vehicle_service.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

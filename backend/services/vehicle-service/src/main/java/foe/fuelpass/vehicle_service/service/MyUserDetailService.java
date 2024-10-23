@@ -1,8 +1,8 @@
-package foe.fuelpass.vehicle.service;
+package foe.fuelpass.vehicle_service.service;
 
-import foe.fuelpass.vehicle.model.UserPrincipal;
-import foe.fuelpass.vehicle.model.VehicleRegistration;
-import foe.fuelpass.vehicle.repository.VehicleRepository;
+import foe.fuelpass.vehicle_service.model.UserPrincipal;
+import foe.fuelpass.vehicle_service.model.VehicleRegistration;
+import foe.fuelpass.vehicle_service.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

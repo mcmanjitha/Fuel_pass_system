@@ -1,4 +1,4 @@
-package foe.fuelpass.vehicle.model;
+package foe.fuelpass.vehicle_service.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

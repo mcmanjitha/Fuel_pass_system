@@ -1,7 +1,7 @@
-package foe.fuelpass.vehicle.configuration;
+package foe.fuelpass.vehicle_service.configuration;
 
-import foe.fuelpass.vehicle.service.JWTService;
-import foe.fuelpass.vehicle.service.MyUserDetailService;
+import foe.fuelpass.vehicle_service.service.JWTService;
+import foe.fuelpass.vehicle_service.service.MyUserDetailService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

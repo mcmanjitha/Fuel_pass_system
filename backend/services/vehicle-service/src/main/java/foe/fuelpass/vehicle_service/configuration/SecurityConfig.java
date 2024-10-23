@@ -1,4 +1,4 @@
-package foe.fuelpass.vehicle.configuration;
+package foe.fuelpass.vehicle_service.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -34,7 +34,7 @@ public class SecurityConfig
         return http
                 .csrf(customizer -> customizer.disable())
                 .authorizeHttpRequests(request -> request
-                    .requestMatchers("vehvalidate","vehregister","vehlogin")
+                    .requestMatchers("vehicle/register","vehicle/login")
                     .permitAll()
                     .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
