@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: vehicle-service
+          uri: lb://vehicle-service
+          predicates:
+            - Path=/vehicle/**
+
+        - id: fuel-station-service
+          uri: lb://fuel-station-service
+          predicates:
+            - Path=/station/**
+
+
+        - id: admin-service
+          uri: lb://admin-service
+          predicates:
+            - Path=/admin/**
+
+
