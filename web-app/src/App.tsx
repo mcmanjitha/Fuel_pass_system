@@ -1,11 +1,12 @@
 import "./App.css";
+import Header from "./components/header";
+import TabbedLayout from "./screens/tabbed-layout";
 
 function App() {
   return (
     <div>
-      <header>
-        <p>Welcome to fuel pass</p>
-      </header>
+      <Header />
+      <TabbedLayout />
     </div>
   );
 }

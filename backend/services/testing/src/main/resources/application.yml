@@ -1,0 +1,5 @@
+spring:
+  config:
+    import: optional:configserver:http://localhost:10000
+  application:
+    name: testing
