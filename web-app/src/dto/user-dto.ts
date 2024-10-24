@@ -11,6 +11,16 @@ export interface FormData {
   chassisNo: string;
 }
 
+export interface fuelStationData {
+  fullName: string;
+  contactNo: string;
+  district: string;
+  province: string;
+  password: string;
+  reTypePassword: string;
+  fuelStationName: string;
+}
+
 export interface LoginData {
   licensePlateNo: string;
   password: string;

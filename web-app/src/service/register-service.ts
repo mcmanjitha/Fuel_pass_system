@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { FormData } from "../dto/user-dto";
+import { FormData, fuelStationData } from "../dto/user-dto";
 
 export const registerVehicle = (formData: FormData): Promise<AxiosResponse> => {
   return axios.post("api/vehregister", formData, {
@@ -14,6 +14,14 @@ export const validateVehicle = (chassisNo: string): Promise<AxiosResponse> => {
     params: {
       chassisNo: chassisNo,
     },
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+};
+
+export const registerFuelStation = (formData: fuelStationData): Promise<AxiosResponse> => {
+  return axios.post("api/statregister", formData, {
     headers: {
       "Content-Type": "application/json",
     },
