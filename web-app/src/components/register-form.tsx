@@ -4,6 +4,7 @@ import { Button, Form, Row, Col } from "react-bootstrap";
 import AppModal from "./app-modal";
 import { registerVehicle, validateVehicle } from "../service/register-service";
 import { FormData } from "../dto/user-dto";
+import QRCodeModal from "./qr-code-modal";
 
 type TModalContent = {
   show: boolean;
@@ -28,10 +29,9 @@ const RegisterForm: React.FC = () => {
     buttonText: "",
     closeHandler: () => setModalContent((prev) => ({ ...prev, show: false })),
   });
+  const [showQRcodeModal, setShowQRcodeModal] = useState<boolean>(false);
 
   const onSubmit = (data: FormData) => {
-    console.log(data);
-
     registerVehicle(data)
       .then((response) => {
         setModalContent({
@@ -39,7 +39,10 @@ const RegisterForm: React.FC = () => {
           header: "Success",
           content: "Registration success",
           buttonText: "Cancel",
-          closeHandler: () => setModalContent((prev) => ({ ...prev, show: false })),
+          closeHandler: () => {
+            setModalContent((prev) => ({ ...prev, show: false }));
+            setShowQRcodeModal(true);
+          },
         });
       })
       .catch((error) => {
@@ -254,6 +257,8 @@ const RegisterForm: React.FC = () => {
         buttonText={modalContent.buttonText}
         closeHandler={modalContent.closeHandler}
       />
+
+      <QRCodeModal show={showQRcodeModal} handleClose={() => setShowQRcodeModal(false)} link="http://www.google.com" />
     </React.Fragment>
   );
 };
