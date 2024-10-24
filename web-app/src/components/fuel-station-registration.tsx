@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import AppModal from "./app-modal";
 import { fuelStationData } from "../dto/user-dto";
+import { registerFuelStation } from "../service/register-service";
 
 type TModalContent = {
   show: boolean;
@@ -31,19 +32,19 @@ const FuelStationRegisterForm: React.FC = () => {
   const onSubmit = (data: fuelStationData) => {
     console.log(data);
 
-    // registerVehicle(data)
-    //   .then((response) => {
-    //     setModalContent({
-    //       show: true,
-    //       header: "Success",
-    //       content: "Registration success",
-    //       buttonText: "Cancel",
-    //       closeHandler: () => setModalContent((prev) => ({ ...prev, show: false })),
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error registering vehicle:", error.response?.data || error.message);
-    //   });
+    registerFuelStation(data)
+      .then((response) => {
+        setModalContent({
+          show: true,
+          header: "Success",
+          content: "Registration success",
+          buttonText: "Cancel",
+          closeHandler: () => setModalContent((prev) => ({ ...prev, show: false })),
+        });
+      })
+      .catch((error) => {
+        console.error("Error registering fuel station:", error.response?.data || error.message);
+      });
   };
 
   return (
