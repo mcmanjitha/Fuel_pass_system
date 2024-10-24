@@ -25,3 +25,8 @@ export interface LoginData {
   licensePlateNo: string;
   password: string;
 }
+
+export interface AdminData {
+  adminID: string;
+  password: string;
+}

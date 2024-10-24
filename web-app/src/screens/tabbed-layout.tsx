@@ -2,7 +2,7 @@ import { Tab, Tabs } from "react-bootstrap";
 import RegisterScreen from "./register-screen";
 import LoginScreen from "./login-screen";
 import FuelStationRegisterScreen from "./fuel-station-registration";
-import AdminPanel from "./admin-panel";
+import AdminLayout from "./admin-layout";
 
 const TabbedLayout = () => {
   return (
@@ -20,7 +20,7 @@ const TabbedLayout = () => {
       </Tab>
 
       <Tab eventKey="administration" title="Administration">
-        <AdminPanel />
+        <AdminLayout />
       </Tab>
     </Tabs>
   );

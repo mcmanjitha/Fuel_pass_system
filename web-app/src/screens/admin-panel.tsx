@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import { Navbar, Nav, Container, Row, Col, Table, Button } from "react-bootstrap";
 import { FaBars } from "react-icons/fa";
 import "./admin-panel.css";
+import { FaPowerOff } from "react-icons/fa";
 
-const AdminPanel: React.FC = () => {
+interface IProps {
+  setAuthentication: () => void;
+}
+
+const AdminPanel: React.FC<IProps> = ({ setAuthentication }) => {
   const [activeTab, setActiveTab] = useState<string | null>("user");
   const [showNav, setShowNav] = useState(true);
 
@@ -15,7 +20,6 @@ const AdminPanel: React.FC = () => {
   const toggleNav = () => setShowNav(!showNav);
 
   const renderTable = () => {
-    console.log(activeTab);
     if (activeTab === "user") {
       return (
         <Table striped bordered hover>
@@ -95,6 +99,9 @@ const AdminPanel: React.FC = () => {
               <Nav.Link eventKey="user">User Info</Nav.Link>
               <Nav.Link eventKey="vehicle">Vehicle Info</Nav.Link>
               <Nav.Link eventKey="station">Station Info</Nav.Link>
+              <Nav.Link>
+                <FaPowerOff onClick={setAuthentication} />
+              </Nav.Link>
             </Nav>
           </Navbar>
         </Col>
