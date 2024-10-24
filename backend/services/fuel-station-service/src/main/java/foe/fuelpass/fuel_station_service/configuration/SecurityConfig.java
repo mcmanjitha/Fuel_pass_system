@@ -1,4 +1,4 @@
-package architecture.project.fuelsystem.configuration;
+package foe.fuelpass.fuel_station_service.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -34,7 +34,7 @@ public class SecurityConfig
         return http
                 .csrf(customizer -> customizer.disable())
                 .authorizeHttpRequests(request -> request
-                    .requestMatchers("vehvalidate","vehregister","vehlogin")
+                    .requestMatchers("station/register","station/login","station/validate")
                     .permitAll()
                     .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
