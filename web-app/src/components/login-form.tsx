@@ -4,6 +4,7 @@ import { Button, Form, Row, Col } from "react-bootstrap";
 import AppModal from "./app-modal";
 import { LoginData } from "../dto/user-dto";
 import { login } from "../service/login-service";
+import QRCodeModal from "./qr-code-modal";
 
 type TModalContent = {
   show: boolean;
@@ -26,6 +27,7 @@ const LoginForm: React.FC = () => {
     buttonText: "",
     closeHandler: () => setModalContent((prev) => ({ ...prev, show: false })),
   });
+  const [showQRcodeModal, setShowQRcodeModal] = useState<boolean>(false);
 
   const onSubmit = (data: LoginData) => {
     console.log(data);
@@ -37,7 +39,10 @@ const LoginForm: React.FC = () => {
           header: "Success",
           content: "Registration success",
           buttonText: "Cancel",
-          closeHandler: () => setModalContent((prev) => ({ ...prev, show: false })),
+          closeHandler: () => {
+            setModalContent((prev) => ({ ...prev, show: false }));
+            setShowQRcodeModal(true);
+          },
         });
       })
       .catch((error) => {
@@ -103,6 +108,8 @@ const LoginForm: React.FC = () => {
         buttonText={modalContent.buttonText}
         closeHandler={modalContent.closeHandler}
       />
+
+      <QRCodeModal show={showQRcodeModal} handleClose={() => setShowQRcodeModal(false)} link="http://www.google.com" />
     </React.Fragment>
   );
 };
