@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import AppModal from "./app-modal";
+import { LoginData } from "../dto/user-dto";
+import { login } from "../service/login-service";
 
 type TModalContent = {
   show: boolean;
@@ -11,17 +13,12 @@ type TModalContent = {
   closeHandler: () => void;
 };
 
-interface FormData {
-  licensePlateNo: string;
-  password: string;
-}
-
 const LoginForm: React.FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<LoginData>();
   const [modalContent, setModalContent] = useState<TModalContent>({
     show: false,
     header: "",
@@ -30,8 +27,22 @@ const LoginForm: React.FC = () => {
     closeHandler: () => setModalContent((prev) => ({ ...prev, show: false })),
   });
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: LoginData) => {
     console.log(data);
+
+    login(data)
+      .then((response) => {
+        setModalContent({
+          show: true,
+          header: "Success",
+          content: "Registration success",
+          buttonText: "Cancel",
+          closeHandler: () => setModalContent((prev) => ({ ...prev, show: false })),
+        });
+      })
+      .catch((error) => {
+        console.error("Error registering vehicle:", error.response?.data || error.message);
+      });
 
     setModalContent({
       show: true,

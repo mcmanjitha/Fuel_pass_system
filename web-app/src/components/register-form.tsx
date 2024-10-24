@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import AppModal from "./app-modal";
+import { registerVehicle, validateVehicle } from "../service/register-service";
+import { FormData } from "../dto/user-dto";
 
 type TModalContent = {
   show: boolean;
@@ -10,18 +12,6 @@ type TModalContent = {
   buttonText: string;
   closeHandler: () => void;
 };
-interface FormData {
-  fullName: string;
-  nic: string;
-  email: string;
-  mobile: string;
-  password: string;
-  reTypePassword: string;
-  licensePlate: string;
-  type: string;
-  registeredYear: number;
-  chassisNo: string;
-}
 
 const RegisterForm: React.FC = () => {
   const {
@@ -42,26 +32,37 @@ const RegisterForm: React.FC = () => {
   const onSubmit = (data: FormData) => {
     console.log(data);
 
-    setModalContent({
-      show: true,
-      header: "Success",
-      content: "Registration success",
-      buttonText: "Cancel",
-      closeHandler: () => setModalContent((prev) => ({ ...prev, show: false })),
-    });
+    registerVehicle(data)
+      .then((response) => {
+        setModalContent({
+          show: true,
+          header: "Success",
+          content: "Registration success",
+          buttonText: "Cancel",
+          closeHandler: () => setModalContent((prev) => ({ ...prev, show: false })),
+        });
+      })
+      .catch((error) => {
+        console.error("Error registering vehicle:", error.response?.data || error.message);
+      });
   };
 
   const validateChassisNo = () => {
     const chassisNo = watch("chassisNo");
-    // chassis number validation
 
-    setModalContent({
-      show: true,
-      header: "Success",
-      content: "Validation passed",
-      buttonText: "Cancel",
-      closeHandler: () => setModalContent((prev) => ({ ...prev, show: false })),
-    });
+    validateVehicle(chassisNo)
+      .then((response) => {
+        setModalContent({
+          show: true,
+          header: "Success",
+          content: "Validation passed",
+          buttonText: "Cancel",
+          closeHandler: () => setModalContent((prev) => ({ ...prev, show: false })),
+        });
+      })
+      .catch((error) => {
+        console.error("Error validating vehicle:", error.response?.data || error.message);
+      });
   };
 
   return (
@@ -256,5 +257,4 @@ const RegisterForm: React.FC = () => {
     </React.Fragment>
   );
 };
-
 export default RegisterForm;

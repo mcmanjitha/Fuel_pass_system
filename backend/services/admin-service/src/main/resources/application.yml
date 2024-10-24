@@ -1,22 +1,5 @@
-server:
-  port: 8088
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://discovery:8761/eureka/
-  instance:
-    prefer-ip-address: true
-
 spring:
-  datasource:
-    url: jdbc:postgresql://admin-db:5432/adminservice
-    username: postgres
-    password: postgres
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-
-zipkin:
-  base-url: http://zipkin:9411
+  config:
+    import: "optional:configserver:http://localhost:10000"
+  application:
+    name: admin-service
