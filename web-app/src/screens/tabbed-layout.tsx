@@ -2,6 +2,7 @@ import { Tab, Tabs } from "react-bootstrap";
 import RegisterScreen from "./register-screen";
 import LoginScreen from "./login-screen";
 import FuelStationRegisterScreen from "./fuel-station-registration";
+import AdminPanel from "./admin-panel";
 
 const TabbedLayout = () => {
   return (
@@ -18,8 +19,8 @@ const TabbedLayout = () => {
         <FuelStationRegisterScreen />
       </Tab>
 
-      <Tab eventKey="administration" title="Administration" disabled>
-        Tab content for Loooonger Tab
+      <Tab eventKey="administration" title="Administration">
+        <AdminPanel />
       </Tab>
     </Tabs>
   );
