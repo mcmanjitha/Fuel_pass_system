@@ -20,6 +20,13 @@ public class FuelStationController {
         return ResponseEntity.ok(stationService.findAll());
     }
 
+    @PostMapping("/tothequota")
+    public ResponseEntity<String> tothequota() {
+        stationService.reachquota();
+        return ResponseEntity.ok("Request sent to service."); // Return a proper response
+    }
+
+
     @GetMapping("/{id}")
     public ResponseEntity<FuelStation> getStationById(@PathVariable Long id) {
         return stationService.findById(id)
