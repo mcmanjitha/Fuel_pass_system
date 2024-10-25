@@ -1,8 +1,8 @@
-package foe.fuelpass.admin.service;
+package foe.fuelpass.admin_service.service;
 
-import foe.fuelpass.admin.model.Admin;
-import foe.fuelpass.admin.model.UserPrincipal;
-import foe.fuelpass.admin.repository.AdminRepository;
+import foe.fuelpass.admin_service.model.Admin;
+import foe.fuelpass.admin_service.model.UserPrincipal;
+import foe.fuelpass.admin_service.repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

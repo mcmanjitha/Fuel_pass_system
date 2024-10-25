@@ -1,35 +1,43 @@
 package foe.fuelpass.fuel_station_service.controller;
 
 import foe.fuelpass.fuel_station_service.model.FuelStation;
+import foe.fuelpass.fuel_station_service.model.LoginDTO;
 import foe.fuelpass.fuel_station_service.service.FuelStationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/station")
-public class FuelStationController
-{
+public class FuelStationController {
+
     @Autowired
-    private FuelStationService fuelStationService ;
+    private FuelStationService fuelStationService;
 
     @GetMapping("/validate")
-    public String validate(@RequestParam String fuelstationid,@RequestParam String ownerid)
-    {
-        return fuelStationService.validate(fuelstationid,ownerid);
+    public ResponseEntity<String> validate(@RequestParam String fuelstationid, @RequestParam String ownerid) {
+        String validationResponse = fuelStationService.validate(fuelstationid, ownerid);
+        if (validationResponse.equals("Valid")) {
+            return ResponseEntity.ok(validationResponse);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(validationResponse);
+        }
     }
 
     @PostMapping("/register")
-    public FuelStation register(@RequestBody FuelStation fuelStation)
-    {
-        return fuelStationService.register(fuelStation);
+    public ResponseEntity<FuelStation> register(@RequestBody FuelStation fuelStation) {
+        FuelStation registeredStation = fuelStationService.register(fuelStation);
+        return ResponseEntity.status(HttpStatus.CREATED).body(registeredStation);
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody FuelStation fuelStation)
-    {
-        return fuelStationService.verify(fuelStation);
+    public ResponseEntity<String> login(@RequestBody LoginDTO loginRequest) {
+        String loginResponse = fuelStationService.verify(loginRequest);
+        if (loginResponse.equals("Login successful")) {
+            return ResponseEntity.ok(loginResponse);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(loginResponse);
+        }
     }
-
-
 }
-

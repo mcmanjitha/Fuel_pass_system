@@ -1,5 +1,6 @@
 package foe.fuelpass.vehicle_service.service;
 
+import foe.fuelpass.vehicle_service.Dtos.QRdataDto;
 import foe.fuelpass.vehicle_service.model.DepartmentDatabase;
 import foe.fuelpass.vehicle_service.model.LoginDTO;
 import foe.fuelpass.vehicle_service.model.VehicleRegistration;
@@ -12,6 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -36,7 +39,7 @@ public class VehicleService {
         return availableVehicle.isPresent() ? "Validated" : "Not Validated";
     }
 
-    public VehicleRegistration register(VehicleRegistration vehicle) {
+    public QRdataDto register(VehicleRegistration vehicle) {
         String validationStatus = validate(vehicle.getChassisno(), vehicle.getNic());
         if (!validationStatus.equals("Validated")) {
             throw new IllegalArgumentException("Vehicle with chassis number " + vehicle.getChassisno() + " is not validated.");
@@ -48,7 +51,12 @@ public class VehicleService {
         }
 
         vehicle.setPassword(encoder.encode(vehicle.getPassword()));
-        return vehicleRepository.save(vehicle);
+        vehicle.setRegistrationDateTime(LocalDateTime.now()); // Set the current timestamp
+        vehicleRepository.save(vehicle);
+        QRdataDto qRdataDto = new QRdataDto();
+        qRdataDto.setChassisno(vehicle.getChassisno());
+        qRdataDto.setRegistrationDateTime(vehicle.getRegistrationDateTime());
+        return qRdataDto;
     }
 
     public String verify(LoginDTO loginRequest) {

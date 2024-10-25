@@ -1,4 +1,4 @@
-package foe.fuelpass.admin.model;
+package foe.fuelpass.admin_service.model;
 
 
 import jakarta.persistence.Entity;

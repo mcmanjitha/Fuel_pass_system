@@ -1,6 +1,6 @@
-package foe.fuelpass.admin.configuration;
-import foe.fuelpass.admin.service.JWTService;
-import foe.fuelpass.admin.service.MyUserDetailService;
+package foe.fuelpass.admin_service.configuration;
+import foe.fuelpass.admin_service.service.JWTService;
+import foe.fuelpass.admin_service.service.MyUserDetailService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

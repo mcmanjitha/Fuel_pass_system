@@ -1,4 +1,4 @@
-package foe.fuelpass.admin.model;
+package foe.fuelpass.admin_service.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
