@@ -195,13 +195,26 @@
       image: postgres
       container_name: admindb
       ports:
-        - "10012:5434"
+        - "10012:5432"
       networks:
         - fuel-network
       environment:
         POSTGRES_DB: admindb
         POSTGRES_USER: adminuser
         POSTGRES_PASSWORD: adminpass
+
+    quotadb:
+      image: postgres
+      container_name: quotadb
+      ports:
+        - "10013:5432"
+      networks:
+        - fuel-network
+      environment:
+        POSTGRES_DB: quotadb
+        POSTGRES_USER: quotauser
+        POSTGRES_PASSWORD: quotapass
+
 
     pg-admin:
       image: dpage/pgadmin4

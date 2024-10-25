@@ -3,6 +3,7 @@ package foe.fuelpass.fuel_quota_service.controllers;
 //import com.fuelpass.fuelquotaservice.services.FuelQuotaService;
 import foe.fuelpass.fuel_quota_service.Dto.AddUserDto;
 import foe.fuelpass.fuel_quota_service.Dto.FuelQuotaOutputDto;
+import foe.fuelpass.fuel_quota_service.Dto.PumperOutputDto;
 import foe.fuelpass.fuel_quota_service.entities.FuelQuota;
 import foe.fuelpass.fuel_quota_service.services.FuelQuotaServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -45,4 +46,6 @@ public class FuelQuotaController {
         List<FuelQuota> quotas = quotaService.findAllQuotas(); // Call service to fetch all quotas
         return ResponseEntity.ok(quotas); // Return the list of quotas
     }
+
+
 }

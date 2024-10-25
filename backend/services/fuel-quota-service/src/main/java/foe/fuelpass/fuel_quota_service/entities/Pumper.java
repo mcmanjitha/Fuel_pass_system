@@ -1,22 +1,19 @@
 package foe.fuelpass.fuel_quota_service.entities;
 
-
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @NoArgsConstructor
 @Entity
-public class FuelQuota {
+public class Pumper {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Long vehicleId;
-    private int quota; // Fuel quota in liters
-    private int availableQuota;
-
-    // Other fields such as quota reset date can be added as needed
+    private String username;
+    private String password;
 }
