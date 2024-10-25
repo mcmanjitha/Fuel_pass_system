@@ -195,7 +195,7 @@
       image: postgres
       container_name: admindb
       ports:
-        - "10012:5434"
+        - "10013:5432"
       networks:
         - fuel-network
       environment:

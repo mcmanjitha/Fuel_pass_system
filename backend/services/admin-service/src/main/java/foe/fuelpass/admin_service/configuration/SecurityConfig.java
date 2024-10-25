@@ -1,4 +1,4 @@
-package foe.fuelpass.admin.configuration;
+package foe.fuelpass.admin_service.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
