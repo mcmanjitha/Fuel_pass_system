@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fuel_app/src/screens/home.dart';
 import 'package:fuel_app/src/widgets/custom_app_bar.dart';
 import '../utils/constants.dart';
 import 'package:http/http.dart' as http;
@@ -9,10 +10,10 @@ class Dashboard extends StatefulWidget {
   final String afterDollar;
 
   const Dashboard({
-    Key? key,
+    super.key,
     required this.beforeDollar,
     required this.afterDollar,
-  }) : super(key: key);
+  });
 
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
@@ -22,7 +23,7 @@ class _DashboardScreenState extends State<Dashboard> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _pumpedAmountController = TextEditingController();
 
-  bool _isFormVisible = true;
+  final bool _isFormVisible = true;
   String _responseMessage = 'Loading...';
 
   @override
@@ -140,6 +141,8 @@ class _DashboardScreenState extends State<Dashboard> {
                               headers: {"Content-Type": "application/json"},
                               body: json.encode(body),
                             );
+                            print("Response status: ${response.statusCode}");
+                            print("Response body: ${response.body}");
                             print("hello");
                             if (response.statusCode == 200) {
                               // Successfully received a response
@@ -150,8 +153,11 @@ class _DashboardScreenState extends State<Dashboard> {
                               );
 
                               // Navigate back to Home widget
-                              Navigator.pop(
-                                  context); // Use pop to return to the previous screen
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const Home())); // Make sure Home() is imported
                             } else {
                               // Handle error response
                               ScaffoldMessenger.of(context).showSnackBar(
