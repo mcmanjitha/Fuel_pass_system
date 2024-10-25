@@ -1,30 +1,17 @@
 package foe.fuelpass.fuel_quota_service.services;
 
-
-
-import lombok.RequiredArgsConstructor;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.stereotype.Service;
+import foe.fuelpass.fuel_quota_service.Dto.AddUserDto;
+import foe.fuelpass.fuel_quota_service.Dto.FuelQuotaOutputDto;
+import foe.fuelpass.fuel_quota_service.entities.FuelQuota;
 
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class FuelQuotaService {
+public interface FuelQuotaService {
+    FuelQuotaOutputDto findByVehicleId(Long vehicleId);
+    void updateQuota(Long vehicleId, int usedFuel);
+    void resetQuota();
 
+    AddUserDto addUser(FuelQuota fuelQuota);
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
-
-
-
-    public void updateQuota(Long vehicleId, int usedFuel) {
-
-
-        // Send a Kafka message for notification
-        kafkaTemplate.send("fuel-quota-updated", "Fuel quota updated for vehicle ID: " + vehicleId);
-    }
-
-    public void resetQuota() {
-        // Logic to reset quota (e.g., every week)
-    }
+    List<FuelQuota> findAllQuotas();
 }

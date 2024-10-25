@@ -3,6 +3,7 @@ import 'package:fuel_app/src/screens/home.dart';
 import 'package:fuel_app/src/widgets/custom_app_bar.dart';
 import '../utils/constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 
 class LoginScreen extends StatefulWidget {
@@ -16,6 +17,9 @@ class LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  // Initialize secure storage
+  final FlutterSecureStorage _storage = FlutterSecureStorage();
 
   // Function to send POST request for login validation
   Future<bool> _validateLogin(String username, String password) async {
