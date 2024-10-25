@@ -6,7 +6,6 @@ import foe.fuelpass.fuel_quota_service.Dto.FuelQuotaOutputDto;
 import foe.fuelpass.fuel_quota_service.entities.FuelQuota;
 import foe.fuelpass.fuel_quota_service.repositories.FuelQuotaRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.List;
 public class FuelQuotaServiceImpl implements FuelQuotaService {
 
     private final FuelQuotaRepository quotaRepository;
-    private final KafkaTemplate<String, String> kafkaTemplate;
+
 
     public List<FuelQuota> findAll() {
         return quotaRepository.findAll();
@@ -39,9 +38,6 @@ public class FuelQuotaServiceImpl implements FuelQuotaService {
         fuelQuota.setAvailableQuota(fuelQuota.getAvailableQuota() - usedFuel);
         quotaRepository.save(fuelQuota);
 
-
-        // Send a Kafka message for notification
-        kafkaTemplate.send("fuel-quota-updated", "Fuel quota updated for vehicle ID: " + vehicleId);
     }
 
     public void resetQuota() {
