@@ -1,12 +1,15 @@
 import axios, { AxiosResponse } from "axios";
 import { FormData, fuelStationData } from "../dto/user-dto";
 
+const axiosInstance = axios.create({
+  baseURL: "http://192.168.8.102:10002/vehicle",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
 export const registerVehicle = (formData: FormData): Promise<AxiosResponse> => {
-  return axios.post("api/vehregister", formData, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  return axiosInstance.post("/register", formData);
 };
 
 export const validateVehicle = (chassisNo: string): Promise<AxiosResponse> => {

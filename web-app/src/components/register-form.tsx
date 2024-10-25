@@ -145,11 +145,6 @@ const RegisterForm: React.FC = () => {
                 placeholder="Enter password"
                 {...register("password", {
                   required: "Password is required",
-                  pattern: {
-                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                    message:
-                      "Password must contain at least 1 uppercase, 1 lowercase, 1 number, 1 special character, and be 8 characters or more",
-                  },
                 })}
                 isInvalid={!!errors.password}
               />
