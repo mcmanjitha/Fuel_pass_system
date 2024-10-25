@@ -1,5 +1,6 @@
 package foe.fuelpass.vehicle_service.controller;
 
+import foe.fuelpass.vehicle_service.Dtos.QRdataDto;
 import foe.fuelpass.vehicle_service.model.LoginDTO;
 import foe.fuelpass.vehicle_service.model.VehicleRegistration;
 import foe.fuelpass.vehicle_service.service.VehicleService;
@@ -35,10 +36,10 @@ public class VehicleController {
 //    }
 
     @PostMapping("/register")
-    public ResponseEntity<VehicleRegistration> register(@RequestBody VehicleRegistration vehicle) {
+    public ResponseEntity<QRdataDto> register(@RequestBody VehicleRegistration vehicle) {
         try {
-            VehicleRegistration registeredVehicle = vehicleService.register(vehicle);
-            return ResponseEntity.status(HttpStatus.CREATED).body(registeredVehicle); // HTTP 201
+            QRdataDto qRdataDto = vehicleService.register(vehicle);
+            return ResponseEntity.status(HttpStatus.CREATED).body(qRdataDto); // HTTP 201
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build(); // HTTP 400
         }

@@ -1,6 +1,7 @@
 package foe.fuelpass.fuel_station_service.service;
 
 import foe.fuelpass.fuel_station_service.model.FuelStation;
+import foe.fuelpass.fuel_station_service.model.LoginDTO;
 import foe.fuelpass.fuel_station_service.model.PetroleumDepartment;
 import foe.fuelpass.fuel_station_service.repository.FuelStationRepository;
 import foe.fuelpass.fuel_station_service.repository.PetroleumDepartmentRepository;
@@ -59,15 +60,23 @@ public class FuelStationService
         return fuelStationRepository.save(fuelStation);
     }
 
-    public String verify(FuelStation fuelStation) {
+//    public String verify(FuelStation fuelStation) {
+//
+//        Authentication authentication =
+//                authManager.authenticate(new UsernamePasswordAuthenticationToken(fuelStation.getFuelstationid(), fuelStation.getPassword()));
+//
+//        if (authentication.isAuthenticated())
+//            return jwtService.generateToken(fuelStation.getFuelstationid());
+//
+//        return "fail";
+//    }
 
-        Authentication authentication =
-                authManager.authenticate(new UsernamePasswordAuthenticationToken(fuelStation.getFuelstationid(), fuelStation.getPassword()));
+    public String verify(LoginDTO loginRequest) {
+        Authentication authentication = authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getFuelstationid(), loginRequest.getPassword())
+        );
 
-        if (authentication.isAuthenticated())
-            return jwtService.generateToken(fuelStation.getFuelstationid());
-
-        return "fail";
+        return authentication.isAuthenticated() ? jwtService.generateToken(loginRequest.getFuelstationid()) : "fail";
     }
 
 }
