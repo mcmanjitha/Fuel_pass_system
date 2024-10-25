@@ -1,20 +1,26 @@
 import { Tab, Tabs } from "react-bootstrap";
 import RegisterScreen from "./register-screen";
 import LoginScreen from "./login-screen";
+import FuelStationRegisterScreen from "./fuel-station-registration";
+import AdminPanel from "./admin-panel";
 
 const TabbedLayout = () => {
   return (
     <Tabs defaultActiveKey="register" id="tabbed-layout" fill>
-      <Tab eventKey="register" title="Register Form">
+      <Tab eventKey="register" title="User Registration">
         <RegisterScreen />
       </Tab>
 
-      <Tab eventKey="login" title="Login Form">
+      <Tab eventKey="login" title="User Login">
         <LoginScreen />
       </Tab>
 
-      <Tab eventKey="administration" title="Administration" disabled>
-        Tab content for Loooonger Tab
+      <Tab eventKey="fuel-register" title="Fuel Station Registration">
+        <FuelStationRegisterScreen />
+      </Tab>
+
+      <Tab eventKey="administration" title="Administration">
+        <AdminPanel />
       </Tab>
     </Tabs>
   );
