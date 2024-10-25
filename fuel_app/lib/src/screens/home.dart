@@ -14,7 +14,7 @@ class _HomeScreenState extends State<Home> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _pumpedAmountController = TextEditingController();
 
-  bool _isFormVisible = true;
+  final bool _isFormVisible = true;
 
   @override
   Widget build(BuildContext context) {

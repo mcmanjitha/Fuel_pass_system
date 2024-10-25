@@ -142,20 +142,65 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
     setState(() {
       this.controller = controller;
     });
+
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
       });
+
       // Print the result to the VS Code console
       print('Scanned QR Code: ${scanData.code}');
 
       if (scanData.code != null) {
+        // Extract the substrings before and after the '$' sign
+        String scannedCode = scanData.code!;
+        List<String> parts = scannedCode.split('\$');
+
+        String beforeDollar = '';
+        String afterDollar = '';
+
+        if (parts.length == 2) {
+          beforeDollar = parts[0].trim(); // Extract before the '$' sign
+          afterDollar = parts[1].trim(); // Extract after the '$' sign
+
+          // Print the extracted values
+          print(beforeDollar);
+          print(afterDollar);
+        } else {
+          print('Invalid QR code format. Expected format: "before".');
+        }
+
         controller.pauseCamera(); // Optional: pause the camera after scanning
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const Dashboard()),
+          MaterialPageRoute(
+              builder: (context) => Dashboard(
+                    beforeDollar: beforeDollar,
+                    afterDollar: afterDollar,
+                  )),
         );
       }
     });
   }
+
+  // void _onQRViewCreated(QRViewController controller) {
+  //   setState(() {
+  //     this.controller = controller;
+  //   });
+  //   controller.scannedDataStream.listen((scanData) {
+  //     setState(() {
+  //       result = scanData;
+  //     });
+  //     // Print the result to the VS Code console
+  //     print('Scanned QR Code: ${scanData.code}');
+
+  //     if (scanData.code != null) {
+  //       controller.pauseCamera(); // Optional: pause the camera after scanning
+  //       Navigator.pushReplacement(
+  //         context,
+  //         MaterialPageRoute(builder: (context) => const Dashboard()),
+  //       );
+  //     }
+  //   });
+  // }
 }

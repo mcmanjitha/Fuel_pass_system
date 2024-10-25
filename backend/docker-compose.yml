@@ -1,212 +1,220 @@
 
-services:
-  config-server:
-    build:
-      context: ./services/config-server
-      dockerfile: Dockerfile
-    ports:
-      - "10000:10000"
-    volumes:
-      - ./services/config-server/configurations:/app/configurations
-    environment:
-      - SPRING_PROFILES_ACTIVE=native
+  services:
+    config-server:
+      build:
+        context: ./services/config-server
+        dockerfile: Dockerfile
+      ports:
+        - "10000:10000"
+      volumes:
+        - ./services/config-server/configurations:/app/configurations
+      environment:
+        - SPRING_PROFILES_ACTIVE=native
 
-  discovery:
-    image: openjdk:21-jdk
-    container_name: discovery
-    ports:
-      - "8761:8761"
-    networks:
-      - fuel-network
-    command: >
-      sh -c "java -jar /app.jar"
-    build:
-      context: ./discovery
-      dockerfile: Dockerfile
-    restart: always
+    discovery:
+      image: openjdk:21-jdk
+      container_name: discovery
+      ports:
+        - "8761:8761"
+      networks:
+        - fuel-network
+      command: >
+        sh -c "java -jar /app.jar"
+      build:
+        context: ./discovery
+        dockerfile: Dockerfile
+      restart: always
 
-  vehicle-service:
-    image: openjdk:21-jdk
-    container_name: vehicle-service
-    ports:
-      - "8081:8081"
-    networks:
-      - fuel-network
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    depends_on:
-      - discovery
-      - config-server
-      - vehicledb
-    build:
-      context: ./vehicle-service
-      dockerfile: Dockerfile
-    restart: always
+    vehicle-service:
+      image: openjdk:21-jdk
+      container_name: vehicle-service
+      ports:
+        - "8081:8081"
+      networks:
+        - fuel-network
+      environment:
+        - SPRING_PROFILES_ACTIVE=docker
+      depends_on:
+        - discovery
+        - config-server
+        - vehicledb
+      build:
+        context: ./vehicle-service
+        dockerfile: Dockerfile
+      restart: always
 
-  fuel-station-service:
-    image: openjdk:21-jdk
-    container_name: fuel-station-service
-    ports:
-      - "8082:8082"
-    networks:
-      - fuel-network
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    depends_on:
-      - discovery
-      - config-server
-      - fuelstationdb
-    build:
-      context: ./fuel-station-service
-      dockerfile: Dockerfile
-    restart: always
+    fuel-station-service:
+      image: openjdk:21-jdk
+      container_name: fuel-station-service
+      ports:
+        - "8082:8082"
+      networks:
+        - fuel-network
+      environment:
+        - SPRING_PROFILES_ACTIVE=docker
+      depends_on:
+        - discovery
+        - config-server
+        - fuelstationdb
+      build:
+        context: ./fuel-station-service
+        dockerfile: Dockerfile
+      restart: always
 
-  fuel-quota-service:
-    image: openjdk:21-jdk
-    container_name: fuel-quota-service
-    ports:
-      - "8083:8083"
-    networks:
-      - fuel-network
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    depends_on:
-      - discovery
-      - config-server
-    build:
-      context: ./fuel-quota-service
-      dockerfile: Dockerfile
-    restart: always
+    fuel-quota-service:
+      image: openjdk:21-jdk
+      container_name: fuel-quota-service
+      ports:
+        - "8083:8083"
+      networks:
+        - fuel-network
+      environment:
+        - SPRING_PROFILES_ACTIVE=docker
+      depends_on:
+        - discovery
+        - config-server
+      build:
+        context: ./fuel-quota-service
+        dockerfile: Dockerfile
+      restart: always
 
-  notification-service:
-    image: openjdk:21-jdk
-    container_name: notification-service
-    ports:
-      - "8084:8084"
-    networks:
-      - fuel-network
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    depends_on:
-      - discovery
-      - config-server
-    build:
-      context: ./notification-service
-      dockerfile: Dockerfile
-    restart: always
+    notification-service:
+      image: openjdk:21-jdk
+      container_name: notification-service
+      ports:
+        - "8084:8084"
+      networks:
+        - fuel-network
+      environment:
+        - SPRING_PROFILES_ACTIVE=docker
+      depends_on:
+        - discovery
+        - config-server
+      build:
+        context: ./notification-service
+        dockerfile: Dockerfile
+      restart: always
 
-  admin-service:
-    image: openjdk:21-jdk
-    container_name: admin-service
-    ports:
-      - "8085:8085"
-    networks:
-      - fuel-network
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    depends_on:
-      - discovery
-      - config-server
-    build:
-      context: ./admin-service
-      dockerfile: Dockerfile
-    restart: always
+    admin-service:
+      image: openjdk:21-jdk
+      container_name: admin-service
+      ports:
+        - "8085:8085"
+      networks:
+        - fuel-network
+      environment:
+        - SPRING_PROFILES_ACTIVE=docker
+      depends_on:
+        - discovery
+        - config-server
+      build:
+        context: ./admin-service
+        dockerfile: Dockerfile
+      restart: always
 
-  api-gateway:
-    image: openjdk:21-jdk
-    container_name: api-gateway
-    ports:
-      - "8080:8080"
-    networks:
-      - fuel-network
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    depends_on:
-      - discovery
-      - config-server
-    build:
-      context: ./api-gateway
-      dockerfile: Dockerfile
-    restart: always
+    api-gateway:
+      image: openjdk:21-jdk
+      container_name: api-gateway
+      ports:
+        - "8080:8080"
+      networks:
+        - fuel-network
+      environment:
+        - SPRING_PROFILES_ACTIVE=docker
+      depends_on:
+        - discovery
+        - config-server
+      build:
+        context: ./api-gateway
+        dockerfile: Dockerfile
+      restart: always
 
-  zipkin:
-    image: openzipkin/zipkin:latest
-    container_name: zipkin
-    ports:
-      - "9411:9411"
-    networks:
-      - fuel-network
+    zipkin:
+      image: openzipkin/zipkin:latest
+      container_name: zipkin
+      ports:
+        - "9411:9411"
+      networks:
+        - fuel-network
 
-  kafka:
-    image: confluentinc/cp-kafka:latest
-    container_name: kafka
-    ports:
-      - "9092:9092"
-    networks:
-      - fuel-network
-    environment:
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-    depends_on:
-      - zookeeper
-
-  zookeeper:
-    image: confluentinc/cp-zookeeper:latest
-    container_name: zookeeper
-    ports:
-      - "2181:2181"
-    networks:
-      - fuel-network
-
-  vehicledb:
-    image: postgres
-    container_name: vehicledb
-    ports:
-      - "10010:5432"
-    networks:
-      - fuel-network
-    environment:
-      POSTGRES_DB: vehicledb
-      POSTGRES_USER: vehicleuser
-      POSTGRES_PASSWORD: vehiclepass
+    zookeeper:
+      image: confluentinc/cp-zookeeper:latest
+      container_name: zookeeper
+      environment:
+        ZOOKEEPER_SERVER_ID: 1
+        ZOOKEEPER_CLIENT_PORT: 2181
+        ZOOKEEPER_TICK_TIME: 2000
+      ports:
+        - "22181:2181"
+      networks:
+        - fuel-network
+    kafka:
+      image: confluentinc/cp-kafka:latest
+      container_name: ms_kafka
+      ports:
+        - "9092:9092"
+      depends_on:
+        - zookeeper
+      environment:
+        KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+        KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+        KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+        KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+        KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      networks:
+          - fuel-network
 
 
-  fuelstationdb:
-    image: postgres
-    container_name: fuelstationdb
-    ports:
-      - "10011:5432"
-    networks:
-      - fuel-network
-    environment:
-      POSTGRES_DB: fuelstationdb
-      POSTGRES_USER: stationuser
-      POSTGRES_PASSWORD: stationpass
-
-  admindb:
-    image: postgres
-    container_name: admindb
-    ports:
-      - "10012:5434"
-    networks:
-      - fuel-network
-    environment:
-      POSTGRES_DB: admindb
-      POSTGRES_USER: adminuser
-      POSTGRES_PASSWORD: adminpass
-
-  pg-admin:
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    ports:
-      - "5050:80"
-    networks:
-      - fuel-network
+    vehicledb:
+      image: postgres
+      container_name: vehicledb
+      ports:
+        - "10010:5432"
+      networks:
+        - fuel-network
+      environment:
+        POSTGRES_DB: vehicledb
+        POSTGRES_USER: vehicleuser
+        POSTGRES_PASSWORD: vehiclepass
 
 
-networks:
-  fuel-network:
-    driver: bridge
+    fuelstationdb:
+      image: postgres
+      container_name: fuelstationdb
+      ports:
+        - "10011:5432"
+      networks:
+        - fuel-network
+      environment:
+        POSTGRES_DB: fuelstationdb
+        POSTGRES_USER: stationuser
+        POSTGRES_PASSWORD: stationpass
+
+    admindb:
+      image: postgres
+      container_name: admindb
+      ports:
+        - "10013:5432"
+      networks:
+        - fuel-network
+      environment:
+        POSTGRES_DB: admindb
+        POSTGRES_USER: adminuser
+        POSTGRES_PASSWORD: adminpass
+
+    pg-admin:
+      image: dpage/pgadmin4
+      environment:
+        PGADMIN_DEFAULT_EMAIL: admin@admin.com
+        PGADMIN_DEFAULT_PASSWORD: admin
+        PGADMIN_CONFIG_SERVER_MODE: 'False'
+      ports:
+        - "5050:80"
+      networks:
+        - fuel-network
+
+
+  networks:
+    fuel-network:
+      driver: bridge
