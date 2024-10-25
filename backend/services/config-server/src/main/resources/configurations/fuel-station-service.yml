@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:10011/fuelstationdb
+    username: stationuser
+    password: stationpass
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  cloud:
+    discovery:
+      client:
+        simple:
+          instances:
+            fuel-quota-service:
+              - uri: http://localhost:10005
+server:
+  port: 10003
+
+application:
+  config:
+    quota-url: http://localhost:10005
