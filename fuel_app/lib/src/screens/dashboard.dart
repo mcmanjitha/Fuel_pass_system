@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:fuel_app/src/screens/home.dart';
 import 'package:fuel_app/src/widgets/custom_app_bar.dart';
 import '../utils/constants.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
+  final String beforeDollar;
+  final String afterDollar;
+
+  const Dashboard({
+    super.key,
+    required this.beforeDollar,
+    required this.afterDollar,
+  });
 
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
@@ -13,7 +23,42 @@ class _DashboardScreenState extends State<Dashboard> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _pumpedAmountController = TextEditingController();
 
-  bool _isFormVisible = true;
+  final bool _isFormVisible = true;
+  String _responseMessage = 'Loading...';
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchQuotaData(); // Call the method to send the POST request
+  }
+
+  Future<void> _fetchQuotaData() async {
+    final String url =
+        'http://192.168.43.188:8080/quota/${widget.beforeDollar}';
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'afterDollar': widget.afterDollar}),
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        setState(() {
+          _responseMessage =
+              '${data['quota']} ltrs'; // Update response message with quota
+        });
+      } else {
+        setState(() {
+          _responseMessage = 'Error: ${response.statusCode}';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _responseMessage = 'Error: $e';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +90,10 @@ class _DashboardScreenState extends State<Dashboard> {
                 top: 40.0,
                 bottom: 16.0), // Top and bottom padding for the title area
             //color: Colors.teal[400],
-            child: const Center(
+            child: Center(
               child: Text(
-                '25.0 ltrs',
-                style: TextStyle(
+                _responseMessage,
+                style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                   fontSize: 50.0, // Font size for the title
@@ -79,15 +124,54 @@ class _DashboardScreenState extends State<Dashboard> {
                     ),
                     const SizedBox(height: 32.0),
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
+                          String pumpedAmount = _pumpedAmountController.text;
+                          // Prepare the URL and body for the request
+                          String url =
+                              'http://192.168.43.188:8080/update/${widget.beforeDollar}';
+                          Map<String, dynamic> body = {
+                            'pumpedAmount': pumpedAmount
+                          };
                           // Perform the login logic here
-                          setState(() {
-                            _isFormVisible = true;
-                          });
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Sending ...')),
-                          );
+                          // Send the POST request
+                          try {
+                            final response = await http.post(
+                              Uri.parse(url),
+                              headers: {"Content-Type": "application/json"},
+                              body: json.encode(body),
+                            );
+                            print("Response status: ${response.statusCode}");
+                            print("Response body: ${response.body}");
+                            print("hello");
+                            if (response.statusCode == 200) {
+                              // Successfully received a response
+                              // Optionally handle the response data here
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Update successful!')),
+                              );
+
+                              // Navigate back to Home widget
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const Home())); // Make sure Home() is imported
+                            } else {
+                              // Handle error response
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text(
+                                        'Failed to update: ${response.reasonPhrase}')),
+                              );
+                            }
+                          } catch (e) {
+                            // Handle exceptions
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Error occurred: $e')),
+                            );
+                          }
                         }
                       },
                       child: const Text(
