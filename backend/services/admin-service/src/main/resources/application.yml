@@ -3,3 +3,6 @@ spring:
     import: "optional:configserver:http://localhost:10000"
   application:
     name: admin-service
+logging:
+  level:
+    root: info
