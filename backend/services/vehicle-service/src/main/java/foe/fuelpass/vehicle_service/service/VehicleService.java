@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -65,6 +66,10 @@ public class VehicleService {
         );
 
         return authentication.isAuthenticated() ? jwtService.generateToken(loginRequest.getChassisno()) : "fail";
+    }
+
+    public List<VehicleRegistration> getAllVehicles() {
+        return vehicleRepository.findAll();
     }
 
 }
