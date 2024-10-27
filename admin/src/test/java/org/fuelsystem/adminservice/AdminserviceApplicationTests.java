@@ -1,13 +1,13 @@
-package architecture.project.fuetstation;
+package org.fuelsystem.adminservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FuetstationApplicationTests {
+class AdminserviceApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }

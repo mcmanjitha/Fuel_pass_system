@@ -34,7 +34,7 @@ public class SecurityConfig
         return http
                 .csrf(customizer -> customizer.disable())
                 .authorizeHttpRequests(request -> request
-                    .requestMatchers("vehicle/register","vehicle/login")
+                    .requestMatchers("vehicle/register","vehicle/login","vehicle/all")
                     .permitAll()
                     .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
